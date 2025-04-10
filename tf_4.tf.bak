@@ -1,0 +1,26 @@
+provider "aws" {
+  region = "ca-central-1"
+}
+
+# Count index
+resource "aws_instance" "awsins" {
+
+  ami = "ami-02cd5b9bfb2512340"
+  instance_type = "t2.micro"
+  count = 2
+  tags = {
+	  Name = "ec2-${count.index}"
+    B="${count.index}"
+    A="1"
+  }
+  }
+  
+
+
+data "aws_instances" "all_instances" {
+  filter {
+    name = "tag:B"
+    values = ["0"]
+  }
+}
+

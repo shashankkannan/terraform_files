@@ -1,0 +1,13 @@
+provider "aws" {
+  region = "ca-central-1"
+}
+
+# Map 1st trial
+variable "my-map" {
+  type = map
+  default = {A="a", B="b"}
+}
+
+output "mapss" {
+  value = var.my-map
+}

@@ -1,0 +1,10 @@
+provider "aws" {
+  region = "ca-central-1"
+}
+
+# Count
+resource "aws_instance" "awsins" {
+  ami = "ami-02cd5b9bfb2512340"
+  instance_type = "t2.micro"
+  count = 3
+}

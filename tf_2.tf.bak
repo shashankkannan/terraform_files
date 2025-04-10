@@ -1,0 +1,20 @@
+provider "aws" {
+  region = "ca-central-1"
+}
+
+# 2nd trial
+resource "aws_instance" "myec2" {
+	ami = "ami-02cd5b9bfb2512340"
+	instance_type = var.map["us3"]
+  
+}
+
+variable "list" {
+	type = list
+	default = ["m5.large", "m5.xlarge", "t2.medium"]
+}
+
+variable "map" {
+  type = map
+  default = {us1 = "t2.micro", us2="t2.medium", us3="t2.large"}
+}
