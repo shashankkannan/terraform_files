@@ -1,0 +1,32 @@
+provider "aws" {
+  region = "ca-central-1"
+}
+data "aws_ami" "os" {
+  most_recent = true
+  owners = ["amazon"]
+  filter {
+    name = "name"
+    values = [ "amzn2-ami-kernel-5.10-hvm-2.0.*" ]
+  }
+}
+
+resource "aws_instance" "instance_1" {
+  ami = data.aws_ami.os.image_id
+  instance_type = "t2.micro"
+  count = 2
+  tags = {
+  Name="ec2_instance_${count.index}"
+  }
+
+  provisioner "local-exec" {
+    command = "echo created ec2 ${count.index}"
+  }
+  provisioner "local-exec" {
+    when = destroy
+    command = "echo Destroyed ec2 ${count.index}" 
+  }
+  provisioner "local-exec" {
+    command = "echo1 created ec2 ${count.index}"
+    on_failure = continue
+  }
+}
