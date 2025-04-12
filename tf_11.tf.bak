@@ -1,0 +1,28 @@
+provider "aws" {
+  region = "ca-central-1"
+}
+
+# First EC2 instance (trigger)
+resource "aws_instance" "trigger_instance" {
+  ami           = "ami-02cd5b9bfb2512340"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Instance A"
+    A = "1"
+  }
+}
+
+# Second EC2 instance that should be replaced when the first one changes
+resource "aws_instance" "dependent_instance" {
+  ami           = "ami-02cd5b9bfb2512340"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Instance B"
+  }
+
+  lifecycle {
+    replace_triggered_by = [aws_instance.trigger_instance]
+  }
+}
